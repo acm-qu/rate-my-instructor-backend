@@ -1,0 +1,1 @@
+# Running this script should seed the DB with fake data for testing purposes
