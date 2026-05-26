@@ -1,7 +1,7 @@
 # Rate My Instructor - Backend
 For details about the project or contriubution guidelines check the [Main Repository](https://github.com/acm-qu/rate-my-instructor).  
 ## Application Folder Structure
-app
+app  
 |- api: The brain of the application  
 |- db: manages db sessions, seeding and crud operations  
 |- |- repos: crud operation management  
