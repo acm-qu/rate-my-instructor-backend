@@ -15,4 +15,4 @@ class User(Base):
     # Relationships
     comments = relationship("Comment", back_populates="user")
     replies = relationship("Reply", back_populates="user")
-    reports = relationship("Report", back_populates="reporter")
+    reports = relationship("Report", back_populates="user")
