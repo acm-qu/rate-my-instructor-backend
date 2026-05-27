@@ -2,18 +2,7 @@ from sqlalchemy import Column, Integer, String, Float, Text, ForeignKey, Boolean
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from db.session import Base
-import enum
-
-class ReportReason(str, enum.Enum):
-    SPAM = "spam"
-    INAPPROPRIATE = "inappropriate"
-    HARASSMENT = "harassment"
-    MISINFORMATION = "misinformation"
-    OTHER = "other"
-
-class ReportTargetType(str, enum.Enum):
-    COMMENT = "comment"
-    REPLY = "reply"
+from db.models.enums import ReportReason, ReportTargetType
 
 class User(Base):
     __tablename__ = "users"
