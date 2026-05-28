@@ -9,7 +9,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, nullable=False)
-    metadata_ = Column("metadata", JSONB, nullable=True)
+    metadata = Column("metadata", JSONB, nullable=True)
     major = Column(String(100), nullable=True)
 
     # Relationships
