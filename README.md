@@ -11,8 +11,3 @@ app
   
 ## Current Tech stack  
 FastAPI, PostgreSQL, Redis, SQLAlchemy, Pydantic, Pytest
-  
-## How to Contribute
-- Clone this repository
-- Run `python3.14 -m venv .venv` & Activate the venv using `source .venv/bin/activate` (this is for macOS it might not work for Windows or Linux so google the alternative)
-- Install requirements using `pip3 install -r app/requirements/common.txt`
