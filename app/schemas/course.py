@@ -1,21 +1,26 @@
-from typing import Any
+from pydantic import BaseModel, Field, NonNegativeInt, NonNegativeFloat, ConfigDict, UUID7
 
-from pydantic import BaseModel, Field, NonNegativeInt, ConfigDict
+from uuid import uuid7
 
-from schemas.regex import QUCourseCode
-from schemas.instructor import Instructor
-from schemas.comment import Comment
+from schemas.msc.regex import QUCourseCode
 
 class Course(BaseModel):
-    id: NonNegativeInt
-    instructor_id: NonNegativeInt
+    id: UUID7 = Field(default_factory=uuid7)
 
     code: str = Field(pattern=QUCourseCode)
     subject: str = Field(lt=50)
-    metadata: dict[str, Any]
     number_of_instructors: NonNegativeInt = Field(default=0)
+    difficulty: NonNegativeFloat = Field(default=0, le=5)
 
-    instructors: list[Instructor]
-    comments: list[Comment]
-
-    model_config = ConfigDict(from_attributes=True, extra="forbid", strict=True)
+    model_config = ConfigDict(from_attributes=True, extra="forbid", strict=True, json_schema_extra={
+        "extra": {
+            "id": "019e704e-09b1-749d-b7c2-231b581499a0",
+            "code": "MATH213",
+            "subject": "Mathematics",
+            "metadata": {
+                "description": "Solving differential equations or something idk"
+            },
+            "number_of_instructors": 67,
+            "difficulty": 3
+        }
+    })

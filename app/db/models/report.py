@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey, Column, Enum, Integer, Text, Boolean, DateTime, func
 from sqlalchemy.orm import relationship
 
-from app.schemas.enums import ReportTargetType, ReportReason
+from app.schemas.msc.enums import ReportTargetType, ReportReason
 
 from db.session import Base
 

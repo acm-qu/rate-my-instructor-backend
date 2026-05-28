@@ -11,3 +11,6 @@ app
   
 ## Current Tech stack  
 FastAPI, PostgreSQL, Redis, SQLAlchemy, Pydantic, Pytest
+
+## TODOs
+- Replace `sqlalchemy.url` value with the deployed db url

@@ -1,22 +1,27 @@
-from pydantic import BaseModel, Field, NonNegativeInt, ConfigDict
+from pydantic import BaseModel, Field, NonNegativeInt, ConfigDict, UUID7
+
+from uuid import uuid7
 
 from datetime import datetime
 
-from schemas.user import User
-from schemas.comment import Comment
-from schemas.report import Report
-
 class Reply(BaseModel):
-    id: NonNegativeInt
-    user_id: NonNegativeInt
-    comment_id: NonNegativeInt
+    id: UUID7 = Field(default_factory=uuid7)
+    user_id: UUID7 = Field(default_factory=uuid7)
+    comment_id: UUID7 = Field(default_factory=uuid7)
+
     content: str
     upvotes: NonNegativeInt = Field(default=0)
     flagged: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.now)
 
-    user: User
-    comment: Comment
-    reports: list[Report]
-
-    model_config = ConfigDict(from_attributes=True, extra="forbid", strict=True)
+    model_config = ConfigDict(from_attributes=True, extra="forbid", strict=True, json_schema_extra={
+        "example": {
+            "id": "019e704e-09b1-749d-b7c2-231b581499a2",
+            "user_id": "019e704e-09b1-749d-b7c2-231b581499a2",
+            "comment_id": "019e704e-09b1-749d-b7c2-231b581499a2",
+            "content": "He explains the grading breakdown clearly and responds quickly during office hours.",
+            "upvotes": 67,
+            "flagged": False,
+            "created_at": "2026-05-28 21:07:16.397239",
+        }
+    })

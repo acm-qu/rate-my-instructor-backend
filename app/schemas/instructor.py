@@ -1,20 +1,25 @@
-from typing import Any
+from pydantic import BaseModel, Field, Optional, NonNegativeInt, NonNegativeFloat, ConfigDict, UUID7
 
-from pydantic import BaseModel, Field, Optional, NonNegativeInt, NonNegativeFloat, ConfigDict
+from uuid import uuid7
 
-from schemas.course import Course
-from schemas.comment import Comment
+from schemas.msc.metadata import InstructorMetadata
 
 class Instructor(BaseModel):
-    id: NonNegativeInt
+    id: UUID7 = Field(default_factory=uuid7)
 
     name: str = Field(max_length=50)
     department: str = Field(max_length=100)
-    metadata: Optional[dict[str, Any]] = Field(default=None)
-    rating: Optional[NonNegativeFloat]
+    metadata: Optional[InstructorMetadata] = Field(default=None)
+    rating: NonNegativeFloat = Field(default=0, le=5)
     number_of_ratings: NonNegativeInt = Field(default=0)
 
-    courses_taught: list[Course]
-    comments: list[Comment]
-
-    model_config = ConfigDict(from_attributes=True, extra="forbid", strict=True)
+    model_config = ConfigDict(from_attributes=True, extra="forbid", strict=True, json_schema_extra={
+        "example": {
+            "id": "019e704e-09b1-749d-b7c2-231b581499a0",
+            "name": "Mohamed Mabrok",
+            "department": "CAS - Mathematics & Statistics",
+            "rating": 5, # ofc
+            "number_of_ratings": 67,
+            "comments": []
+        }
+    })

@@ -1,18 +1,14 @@
-from pydantic import BaseModel, Field, Optional, NonNegativeInt, NonNegativeFloat, model_validator, ConfigDict
+from pydantic import BaseModel, Field, Optional, NonNegativeInt, NonNegativeFloat, model_validator, ConfigDict, UUID7
 
 from datetime import datetime
 
-from schemas.user import User
-from schemas.reply import Reply
-from schemas.report import Report
-from schemas.course import Course
-from schemas.instructor import Instructor
+from uuid import uuid7
 
 class Comment(BaseModel):
-    id: NonNegativeInt
-    user_id: NonNegativeInt
-    instructor_id: NonNegativeInt
-    course_id: NonNegativeInt
+    id: UUID7 = Field(default_factory=uuid7)
+    user_id: UUID7 = Field(default_factory=uuid7)
+    instructor_id: Optional[UUID7] = Field(default_factory=None)
+    course_id: Optional[UUID7] = Field(default_factory=None)
 
     content: str
     rating: NonNegativeFloat
@@ -20,16 +16,21 @@ class Comment(BaseModel):
     flagged: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.now)
 
-    user: User
-    instructor: Optional[Instructor]
-    course: Optional[Course]
-    replies: list[Reply]
-    reports: list[Report]
-
     @model_validator(mode="after")
     def check_comment(self):
-        if not self.instructor and not self.course:
+        if not self.instructor_id and not self.course_id:
             return ValueError("The comment should strictly be on either an instructor or a course")
         return self
     
-    model_config = ConfigDict(from_attributes=True, strict=True, extra="forbid")
+    model_config = ConfigDict(from_attributes=True, strict=True, extra="forbid", json_schema_extra={
+        "example": {
+            "id": "019e704e-09b1-749d-b7c2-231b581499a0",
+            "user_id": "019e704e-09b1-749d-b7c2-231b581499a0",
+            "instructor_id": "019e704e-09b1-749d-b7c2-231b581499a0",
+            "content": "Simply the goat",
+            "rating": 5,
+            "upvotes": 67,
+            "flagged": False,
+            "created_at": "2026-05-28 21:07:16.397239",
+        }
+    })
