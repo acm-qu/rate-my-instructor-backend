@@ -1,13 +1,15 @@
-from sqlalchemy import Column, Integer, String
+from uuid import uuid7
+
+from db.session import Base
+from sqlalchemy import UUID, Column, String
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from db.session import Base
 
 class User(Base):
-    __tablename__ = "users"
+    id = Column(UUID, primary_key=True, index=True)
 
-    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String(255), unique=True, nullable=False, default=lambda: "qu-student-"+uuid7()[:4])
     email = Column(String(255), unique=True, nullable=False)
     metadata = Column("metadata", JSONB, nullable=True)
     major = Column(String(100), nullable=True)

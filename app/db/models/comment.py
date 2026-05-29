@@ -1,15 +1,29 @@
-from sqlalchemy import ForeignKey, Column, Integer, Text, Float, Boolean, DateTime, func
+from db.session import Base
+from sqlalchemy import (
+    UUID,
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    Text,
+    func,
+)
 from sqlalchemy.orm import relationship
 
-from db.session import Base
 
 class Comment(Base):
-    __tablename__ = "comments"
-
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    instructor_id = Column(Integer, ForeignKey("instructors.id", ondelete="CASCADE"), nullable=False)
-    course_id = Column(Integer, ForeignKey("courses.id", ondelete="CASCADE"), nullable=True)
+    id = Column(UUID, primary_key=True, index=True)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    instructor_id = Column(
+        Integer, ForeignKey("instructors.id", ondelete="CASCADE"), nullable=False
+    )
+    course_id = Column(
+        Integer, ForeignKey("courses.id", ondelete="CASCADE"), nullable=True
+    )
     content = Column(Text, nullable=False)
     rating = Column(Float, nullable=False)
     upvotes = Column(Integer, default=0)

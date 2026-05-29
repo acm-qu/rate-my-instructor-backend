@@ -1,9 +1,9 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-from typing import Generator
-from dotenv import load_dotenv
 import os
+from collections.abc import Generator
 
+from dotenv import load_dotenv
+from sqlalchemy import MetaData, create_engine
+from sqlalchemy.orm import DeclarativeBase, declared_attr, sessionmaker
 
 load_dotenv()
 
@@ -15,16 +15,31 @@ engine = create_engine(
     pool_size=5,
     max_overflow=10,
     pool_pre_ping=True,
-    echo=False # debug set to True
+    echo=False,  # debug set to True
 )
 
-SessionLocal = sessionmaker(
-    bind=engine,
-    autocommit=False,
-    autoflush=False
-)
+SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    metadata = MetaData()
+
+    @declared_attr.directive
+    def __tablename__(cls):
+        """
+        Convert PascalCase to snake_case name
+        """
+        res = ""
+        if len(cls.__name__) == 0:
+            return ""
+        res = str.lower(cls.__name__[0])
+        for char in range(1, len(cls.__name__)):
+            if char == str.upper(char):
+                res += "_" + str.lower(char)
+            else:
+                res += char
+        return res
+
 
 def get_db() -> Generator:
     db = SessionLocal()

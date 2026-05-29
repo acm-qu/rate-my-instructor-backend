@@ -1,10 +1,12 @@
 from enum import Enum
 
+
 class Level(str, Enum):
     FRESHMAN = "freshman"
     SOPHOMORE = "sophomore"
     JUNIOR = "junior"
     SENIOR = "senior"
+
 
 class ReportReason(str, Enum):
     SPAM = "spam"
@@ -12,6 +14,7 @@ class ReportReason(str, Enum):
     HARASSMENT = "harassment"
     MISINFORMATION = "misinformation"
     OTHER = "other"
+
 
 class ReportTargetType(str, Enum):
     COMMENT = "comment"

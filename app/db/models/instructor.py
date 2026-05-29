@@ -1,13 +1,11 @@
-from sqlalchemy import Column, Integer, String, Float
+from db.session import Base
+from sqlalchemy import UUID, Column, Float, Integer, String
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
-from db.session import Base
 
 class Instructor(Base):
-    __tablename__ = "instructors"
-
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID, primary_key=True, index=True)
     name = Column(String(50), nullable=False)
     department = Column(String(100), nullable=True)
     metadata_ = Column("metadata", JSONB, nullable=True)

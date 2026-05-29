@@ -1,25 +1,45 @@
-from sqlalchemy import ForeignKey, Column, Enum, Integer, Text, Boolean, DateTime, func
+from db.session import Base
+from sqlalchemy import (
+    UUID,
+    Boolean,
+    Column,
+    DateTime,
+    Enum,
+    ForeignKey,
+    Integer,
+    Text,
+    func,
+)
 from sqlalchemy.orm import relationship
 
-from app.schemas.msc.enums import ReportTargetType, ReportReason
+from app.schemas.msc.enums import ReportReason, ReportTargetType
 
-from db.session import Base
 
 class Report(Base):
-    __tablename__ = "reports"
-
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(UUID, primary_key=True, index=True)
 
     # Who submitted the report
-    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
 
     # What is being reported
-    target_type = Column(Enum(ReportTargetType, name="report_target_type"), nullable=False)
-    comment_id = Column(Integer, ForeignKey("comments.id", ondelete="CASCADE"), nullable=True)
-    reply_id = Column(Integer, ForeignKey("replies.id", ondelete="CASCADE"), nullable=True)
+    target_type = Column(
+        Enum(ReportTargetType, name="report_target_type"), nullable=False
+    )
+    comment_id = Column(
+        Integer, ForeignKey("comments.id", ondelete="CASCADE"), nullable=True
+    )
+    reply_id = Column(
+        Integer, ForeignKey("replies.id", ondelete="CASCADE"), nullable=True
+    )
 
     # Report details
-    reason = Column(Enum(ReportReason, name="report_reason"), nullable=False, default=ReportReason.OTHER)
+    reason = Column(
+        Enum(ReportReason, name="report_reason"),
+        nullable=False,
+        default=ReportReason.OTHER,
+    )
     description = Column(Text, nullable=True)
     is_reviewed = Column(Boolean, default=False)
     created_at = Column(DateTime, server_default=func.now())
