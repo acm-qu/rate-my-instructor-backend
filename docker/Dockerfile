@@ -3,7 +3,7 @@ FROM python:3.14-slim
 
 RUN apt-get update && apt-get install -y python3
 
-RUN pip3 install app/requirements.txt
+RUN pip3 install -r app/requirements.txt
 
 # Create a folder in the container to work with
 WORKDIR /src
@@ -12,7 +12,7 @@ WORKDIR /src
 COPY . .
 
 # Make the scripts executable
-RUN chmod +x ./scrips/*
+RUN chmod +x ./scripts/*
 
 # Run the application
 # -s: strict mode

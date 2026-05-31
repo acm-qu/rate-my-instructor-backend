@@ -28,7 +28,7 @@ class Comment(BaseModel):
     @model_validator(mode="after")
     def check_comment(self):
         if not self.instructor_id and not self.course_id:
-            return ValueError(
+            raise ValueError(
                 "The comment should strictly be on either an instructor or a course"
             )
         return self

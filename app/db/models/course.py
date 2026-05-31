@@ -8,11 +8,11 @@ class Course(Base):
     id = Column(UUID, primary_key=True, index=True)
     code = Column(String(20), unique=True, nullable=False)
     subject = Column(String(50), nullable=True)
-    metadata = Column("metadata", JSONB, nullable=True)
+    metadata_ = Column("metadata", JSONB, nullable=True)
     difficulty = Column(Integer, nullable=True)
     number_of_instructors = Column(Integer, default=0)
     instructor_id = Column(
-        Integer, ForeignKey("instructors.id", ondelete="SET NULL"), nullable=True
+        UUID, ForeignKey("instructors.id", ondelete="SET NULL"), nullable=True
     )
 
     # Relationships

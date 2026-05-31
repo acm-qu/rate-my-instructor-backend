@@ -16,13 +16,13 @@ from sqlalchemy.orm import relationship
 class Comment(Base):
     id = Column(UUID, primary_key=True, index=True)
     user_id = Column(
-        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+        UUID, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
     instructor_id = Column(
-        Integer, ForeignKey("instructors.id", ondelete="CASCADE"), nullable=False
+        UUID, ForeignKey("instructors.id", ondelete="CASCADE"), nullable=False
     )
     course_id = Column(
-        Integer, ForeignKey("courses.id", ondelete="CASCADE"), nullable=True
+        UUID, ForeignKey("courses.id", ondelete="CASCADE"), nullable=True
     )
     content = Column(Text, nullable=False)
     rating = Column(Float, nullable=False)

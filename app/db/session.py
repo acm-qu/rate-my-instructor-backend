@@ -22,8 +22,6 @@ SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
 
 class Base(DeclarativeBase):
-    metadata = MetaData()
-
     @declared_attr.directive
     def __tablename__(cls):
         """
@@ -33,12 +31,12 @@ class Base(DeclarativeBase):
         if len(cls.__name__) == 0:
             return ""
         res = str.lower(cls.__name__[0])
-        for char in range(1, len(cls.__name__)):
+        for char in cls.__name__[1:]:
             if char == str.upper(char):
                 res += "_" + str.lower(char)
             else:
                 res += char
-        return res
+        return res + "s"
 
 
 def get_db() -> Generator:

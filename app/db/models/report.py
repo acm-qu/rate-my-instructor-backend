@@ -12,7 +12,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship
 
-from app.schemas.msc.enums import ReportReason, ReportTargetType
+from schemas.msc.enums import ReportReason, ReportTargetType
 
 
 class Report(Base):
@@ -20,7 +20,7 @@ class Report(Base):
 
     # Who submitted the report
     user_id = Column(
-        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+        UUID, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
 
     # What is being reported
@@ -28,10 +28,10 @@ class Report(Base):
         Enum(ReportTargetType, name="report_target_type"), nullable=False
     )
     comment_id = Column(
-        Integer, ForeignKey("comments.id", ondelete="CASCADE"), nullable=True
+        UUID, ForeignKey("comments.id", ondelete="CASCADE"), nullable=True
     )
     reply_id = Column(
-        Integer, ForeignKey("replies.id", ondelete="CASCADE"), nullable=True
+        UUID, ForeignKey("replys.id", ondelete="CASCADE"), nullable=True
     )
 
     # Report details

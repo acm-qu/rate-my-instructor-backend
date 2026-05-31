@@ -10,9 +10,14 @@ from db.models import * # import everything for alembic to detect them
 
 from db.session import Base
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+db_url = os.getenv("DATABASE_URL")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -30,11 +35,11 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-def process_revision_directives(context, directives) -> None:
+def process_revision_directives(migration_context, revision, directives) -> None:
     # extract Migration
     migration_script = directives[0]
     # extract current head revision
-    head_revision = ScriptDirectory.from_config(context.config).get_current_head()
+    head_revision = ScriptDirectory.from_config(config).get_current_head()
     
     if head_revision is None:
         # edge case with first migration

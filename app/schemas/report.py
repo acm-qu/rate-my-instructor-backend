@@ -26,7 +26,7 @@ class Report(BaseModel):
 
     model_config = ConfigDict(
         from_attributes=True,
-        stric=True,
+        strict=True,
         extra="forbid",
         json_schema_extra={
             "example": {
