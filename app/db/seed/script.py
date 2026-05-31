@@ -1,20 +1,22 @@
 # Running this script should seed the DB with fake data for testing purposes
-import os
 import json
+import os
 import random
+
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
+
 from app.db.seed.constants import (
-    USERS,
-    INSTRUCTORS,
-    PHD_CONCENTRATIONS,
     COURSES,
-    POSITIVE_COMMENTS,
+    INSTRUCTORS,
     MIXED_COMMENTS,
     NEGATIVE_COMMENTS,
+    PHD_CONCENTRATIONS,
+    POSITIVE_COMMENTS,
     REPLY_TEXTS,
     REPORT_DESCRIPTIONS,
+    USERS,
 )
 
 load_dotenv()

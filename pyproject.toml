@@ -1,0 +1,50 @@
+[project]
+name = "rate-my-instructor"
+version = "0.0.0"
+description = "A web application for rating instructors."
+authors = [
+  "Abdelhakim Akhadkhou",
+  "Mariam Al-Shafee",
+  "Omar Al-Mokadem"
+]
+
+[tool.ruff]
+exclude = [
+  "app/db/models/__init__.py",
+  "app/alembic/*",
+  ".venv",
+  "__pycache__"
+]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8 comprehensions
+    "B",  # flake8 bugbear
+    "UP", # automatically upgrade syntax for newer versions of the language
+    "ASYNC", # flake8 async
+    "C4", # flake8 omprehensions
+]
+ignore = [
+    "B904", # raise exception from except block with no `from` keyword
+    "B024", # abstract class without abstract methods
+    "E501", # line too long (handled by ruff formatter)
+    "B008", # do not perform function calls in argument defaults
+]
+fixable = ["ALL"]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+# use double quotes for strings.
+quote-style = "double"
+# indent with spaces, rather than tabs.
+indent-style = "space"
+# respect magic trailing commas.
+skip-magic-trailing-comma = false
+# automatically detect the appropriate line ending.
+line-ending = "auto"
