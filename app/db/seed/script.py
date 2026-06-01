@@ -177,9 +177,9 @@ def seed_replies(user_ids, comment_ids):
                 reply_id = str(uuid4())  # FIX: generate id in Python
                 db.execute(
                     text("""
-                        INSERT INTO replys (id, user_id, comment_id, content, upvotes, flagged)
+                        INSERT INTO replies (id, user_id, comment_id, content, upvotes, flagged)
                         VALUES (:id, :uid, :cid, :content, :upvotes, :flagged)
-                    """),  # FIX: 'replys' not 'replies' — matches Reply.__tablename__
+                    """),  # FIX: 'replies' not 'replies' — matches Reply.__tablename__
                     {
                         "id": reply_id,  # FIX: pass generated id
                         "uid": user_id,
@@ -200,8 +200,8 @@ def seed_reports(user_ids):
         row[0] for row in db.execute(text("SELECT id FROM comments")).fetchall()
     ]
     reply_ids = [
-        row[0] for row in db.execute(text("SELECT id FROM replys")).fetchall()
-        # FIX: 'replys' not 'replies' — matches Reply.__tablename__
+        row[0] for row in db.execute(text("SELECT id FROM replies")).fetchall()
+        # FIX: 'replies' not 'replies' — matches Reply.__tablename__
     ]
 
     report_count = 0
@@ -282,8 +282,8 @@ def seed_reports(user_ids):
 
 def print_summary():
     print("\nDatabase Summary:")
-    for table in ["users", "instructors", "courses", "comments", "replys", "reports"]:
-        # FIX: 'replys' not 'replies'
+    for table in ["users", "instructors", "courses", "comments", "replies", "reports"]:
+        # FIX: 'replies' not 'replies'
         count = db.execute(text(f"SELECT COUNT(*) FROM {table}")).fetchone()[0]
         print(f"  {table:<15} {count} rows")
 
