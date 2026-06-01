@@ -1,16 +1,17 @@
 from datetime import datetime
-from uuid import uuid7
+from uuid import uuid4
 
-from pydantic import UUID7, BaseModel, ConfigDict, Field, Optional, model_validator
+from pydantic import UUID4, BaseModel, ConfigDict, Field, model_validator
 from schemas.msc.enums import ReportReason, ReportTargetType
+from typing import Optional
 
 
 class Report(BaseModel):
-    id: UUID7 = Field(default_factory=uuid7)
+    id: UUID4 = Field(default_factory=uuid4)
 
-    user_id: UUID7 = Field(default_factory=uuid7)
-    comment_id: Optional[UUID7] = Field(default_factory=None)
-    reply_id: Optional[UUID7] = Field(default_factory=None)
+    user_id: UUID4 = Field(default_factory=uuid4)
+    comment_id: Optional[UUID4] = Field(default=None)
+    reply_id: Optional[UUID4] = Field(default=None)
 
     target_type: ReportTargetType
     reason: ReportReason = Field(default=ReportReason.OTHER)
@@ -21,7 +22,7 @@ class Report(BaseModel):
     @model_validator(mode="after")
     def check_report(self):
         if not self.comment_id and not self.reply_id:
-            return ValueError("The report should have a comment or a reply attached")
+            raise ValueError("The report should have a comment or a reply attached")
         return self
 
     model_config = ConfigDict(

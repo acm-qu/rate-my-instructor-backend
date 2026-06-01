@@ -36,6 +36,8 @@ class Base(DeclarativeBase):
                 res += "_" + str.lower(char)
             else:
                 res += char
+        if res.endswith("y"):
+            return res[:-1] + "ies"
         return res + "s"
 
 

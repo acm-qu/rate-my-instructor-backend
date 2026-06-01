@@ -1,13 +1,13 @@
 from datetime import datetime
-from uuid import uuid7
+from uuid import uuid4
 
-from pydantic import UUID7, BaseModel, ConfigDict, Field, NonNegativeInt
+from pydantic import UUID4, BaseModel, ConfigDict, Field, NonNegativeInt
 
 
 class Reply(BaseModel):
-    id: UUID7 = Field(default_factory=uuid7)
-    user_id: UUID7 = Field(default_factory=uuid7)
-    comment_id: UUID7 = Field(default_factory=uuid7)
+    id: UUID4 = Field(default_factory=uuid4)
+    user_id: UUID4 = Field(default_factory=uuid4)
+    comment_id: UUID4 = Field(default_factory=uuid4)
 
     content: str
     upvotes: NonNegativeInt = Field(default=0)

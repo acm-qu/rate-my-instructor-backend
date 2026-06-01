@@ -1,19 +1,21 @@
-from uuid import uuid7
+from uuid import uuid4
 
 from pydantic import (
-    UUID7,
+    UUID4,
     BaseModel,
     ConfigDict,
     Field,
     NonNegativeFloat,
     NonNegativeInt,
-    Optional,
 )
+
+from typing import Optional
+
 from schemas.msc.metadata import InstructorMetadata
 
 
 class Instructor(BaseModel):
-    id: UUID7 = Field(default_factory=uuid7)
+    id: UUID4 = Field(default_factory=uuid4)
 
     name: str = Field(max_length=50)
     department: str = Field(max_length=100)

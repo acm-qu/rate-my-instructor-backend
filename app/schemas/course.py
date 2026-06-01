@@ -1,7 +1,7 @@
-from uuid import uuid7
+from uuid import uuid4
 
 from pydantic import (
-    UUID7,
+    UUID4,
     BaseModel,
     ConfigDict,
     Field,
@@ -12,10 +12,10 @@ from schemas.msc.regex import QUCourseCode
 
 
 class Course(BaseModel):
-    id: UUID7 = Field(default_factory=uuid7)
+    id: UUID4 = Field(default_factory=uuid4)
 
     code: str = Field(pattern=QUCourseCode)
-    subject: str = Field(lt=50)
+    subject: str = Field(max_length=50)
     number_of_instructors: NonNegativeInt = Field(default=0)
     difficulty: NonNegativeFloat = Field(default=0, le=5)
 

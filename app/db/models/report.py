@@ -31,7 +31,7 @@ class Report(Base):
         UUID, ForeignKey("comments.id", ondelete="CASCADE"), nullable=True
     )
     reply_id = Column(
-        UUID, ForeignKey("replys.id", ondelete="CASCADE"), nullable=True
+        UUID, ForeignKey("replies.id", ondelete="CASCADE"), nullable=True
     )
 
     # Report details

@@ -9,9 +9,12 @@ MarkupSafe==3.0.3
 psycopg2-binary==2.9.12
 pydantic==2.13.4
 pydantic_core==2.46.4
+email-validator==2.3.0
 python-dotenv==1.2.2
 SQLAlchemy==2.0.50
 starlette==1.1.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0
 redis==8.0.0
+uuid7==0.1.0
+httpx==0.28.0

@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 class User(Base):
     id = Column(UUID, primary_key=True, index=True)
 
-    username = Column(String(255), unique=True, nullable=False, default=lambda: "qu-student-"+uuid4()[:4])
+    username = Column(String(255), unique=True, nullable=False, default=lambda: "qu-student-"+str(uuid4())[:4])
     email = Column(String(255), unique=True, nullable=False)
     metadata_ = Column("metadata", JSONB, nullable=True)
     major = Column(String(100), nullable=True)

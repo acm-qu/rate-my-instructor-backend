@@ -2,12 +2,13 @@
 import json
 import os
 import random
+from uuid import uuid4  # FIX: added — needed to generate primary keys
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 
-from app.db.seed.constants import (
+from constants import (
     COURSES,
     INSTRUCTORS,
     MIXED_COMMENTS,
@@ -31,6 +32,9 @@ def seed_users():
     print("Seeding users...")
     user_ids = []
     for u in USERS:
+        user_id = str(uuid4())   # FIX: generate id in Python
+        username = "qu-student-" + str(uuid4())[:4]  # FIX: generate username; str() before slicing
+
         metadata = json.dumps(
             {
                 "year_of_study": u["status"],
@@ -39,12 +43,18 @@ def seed_users():
         )
         result = db.execute(
             text("""
-                INSERT INTO users (email, metadata, major)
-                VALUES (:email, CAST(:metadata AS JSONB), :major)
+                INSERT INTO users (id, username, email, metadata, major)
+                VALUES (:id, :username, :email, CAST(:metadata AS JSONB), :major)
                 ON CONFLICT (email) DO UPDATE SET major = EXCLUDED.major
                 RETURNING id
             """),
-            {"email": u["email"], "metadata": metadata, "major": u["major"]},
+            {
+                "id": user_id,          # FIX: pass generated id
+                "username": username,   # FIX: pass generated username
+                "email": u["email"],
+                "metadata": metadata,
+                "major": u["major"],
+            },
         )
         user_ids.append(result.fetchone()[0])
     db.commit()
@@ -56,6 +66,8 @@ def seed_instructors():
     print("Seeding instructors...")
     instructor_ids = []
     for inst in INSTRUCTORS:
+        instructor_id = str(uuid4())  # FIX: generate id in Python
+
         metadata = json.dumps(
             {
                 "phd_concentration": random.choice(PHD_CONCENTRATIONS),
@@ -65,11 +77,12 @@ def seed_instructors():
         )
         result = db.execute(
             text("""
-                INSERT INTO instructors (name, department, metadata, rating, number_of_ratings)
-                VALUES (:name, :dept, CAST(:metadata AS JSONB), :rating, :num)
+                INSERT INTO instructors (id, name, department, metadata, rating, number_of_ratings)
+                VALUES (:id, :name, :dept, CAST(:metadata AS JSONB), :rating, :num)
                 RETURNING id
             """),
             {
+                "id": instructor_id,  # FIX: pass generated id
                 "name": inst["name"],
                 "dept": inst["department"],
                 "metadata": metadata,
@@ -87,6 +100,8 @@ def seed_courses(instructor_ids):
     print("Seeding courses...")
     course_ids = []
     for c in COURSES:
+        course_id = str(uuid4())  # FIX: generate id in Python
+
         metadata = json.dumps(
             {
                 "credits": random.choice([2, 3, 4]),
@@ -95,12 +110,13 @@ def seed_courses(instructor_ids):
         )
         result = db.execute(
             text("""
-                INSERT INTO courses (code, subject, metadata, number_of_instructors, instructor_id)
-                VALUES (:code, :subject, CAST(:metadata AS JSONB), :num_inst, :inst_id)
+                INSERT INTO courses (id, code, subject, metadata, number_of_instructors, instructor_id)
+                VALUES (:id, :code, :subject, CAST(:metadata AS JSONB), :num_inst, :inst_id)
                 ON CONFLICT (code) DO UPDATE SET subject = EXCLUDED.subject
                 RETURNING id
             """),
             {
+                "id": course_id,  # FIX: pass generated id
                 "code": c["code"],
                 "subject": c["subject"],
                 "metadata": metadata,
@@ -123,16 +139,18 @@ def seed_comments(user_ids, instructor_ids, course_ids):
         num_comments = random.randint(3, 6)
         used_users = random.sample(user_ids, min(num_comments, len(user_ids)))
         for user_id in used_users:
+            comment_id = str(uuid4())  # FIX: generate id in Python
             content = random.choice(all_comments)
             rating = round(random.uniform(1.5, 5.0), 1)
             course_id = random.choice(course_ids) if random.random() > 0.2 else None
             result = db.execute(
                 text("""
-                    INSERT INTO comments (user_id, instructor_id, course_id, content, rating, upvotes, flagged)
-                    VALUES (:uid, :iid, :cid, :content, :rating, :upvotes, :flagged)
+                    INSERT INTO comments (id, user_id, instructor_id, course_id, content, rating, upvotes, flagged)
+                    VALUES (:id, :uid, :iid, :cid, :content, :rating, :upvotes, :flagged)
                     RETURNING id
                 """),
                 {
+                    "id": comment_id,  # FIX: pass generated id
                     "uid": user_id,
                     "iid": inst_id,
                     "cid": course_id,
@@ -156,12 +174,14 @@ def seed_replies(user_ids, comment_ids):
             num_replies = random.randint(1, 3)
             repliers = random.sample(user_ids, min(num_replies, len(user_ids)))
             for user_id in repliers:
+                reply_id = str(uuid4())  # FIX: generate id in Python
                 db.execute(
                     text("""
-                        INSERT INTO replies (user_id, comment_id, content, upvotes, flagged)
-                        VALUES (:uid, :cid, :content, :upvotes, :flagged)
-                    """),
+                        INSERT INTO replys (id, user_id, comment_id, content, upvotes, flagged)
+                        VALUES (:id, :uid, :cid, :content, :upvotes, :flagged)
+                    """),  # FIX: 'replys' not 'replies' — matches Reply.__tablename__
                     {
+                        "id": reply_id,  # FIX: pass generated id
                         "uid": user_id,
                         "cid": comment_id,
                         "content": random.choice(REPLY_TEXTS),
@@ -180,7 +200,8 @@ def seed_reports(user_ids):
         row[0] for row in db.execute(text("SELECT id FROM comments")).fetchall()
     ]
     reply_ids = [
-        row[0] for row in db.execute(text("SELECT id FROM replies")).fetchall()
+        row[0] for row in db.execute(text("SELECT id FROM replys")).fetchall()
+        # FIX: 'replys' not 'replies' — matches Reply.__tablename__
     ]
 
     report_count = 0
@@ -190,16 +211,19 @@ def seed_reports(user_ids):
             comment_ids, min(len(comment_ids), random.randint(8, 18))
         ):
             reporter_id = random.choice(user_ids)
+            report_id = str(uuid4())  # FIX: generate id in Python
             db.execute(
                 text("""
                     INSERT INTO reports (
-                        reporter_id, target_type, comment_id, reply_id,
+                        id, user_id, target_type, comment_id, reply_id,
                         reason, description, is_reviewed
                     )
-                    VALUES (:reporter_id, :target_type, :comment_id, NULL, :reason, :description, :is_reviewed)
+                    VALUES (:id, :user_id, :target_type, :comment_id, NULL, :reason, :description, :is_reviewed)
                 """),
+                # FIX: column is 'user_id' not 'reporter_id', and id is now included
                 {
-                    "reporter_id": reporter_id,
+                    "id": report_id,
+                    "user_id": reporter_id,
                     "target_type": "COMMENT",
                     "comment_id": comment_id,
                     "reason": random.choice(
@@ -222,16 +246,19 @@ def seed_reports(user_ids):
             reply_ids, min(len(reply_ids), random.randint(5, 12))
         ):
             reporter_id = random.choice(user_ids)
+            report_id = str(uuid4())  # FIX: generate id in Python
             db.execute(
                 text("""
                     INSERT INTO reports (
-                        reporter_id, target_type, comment_id, reply_id,
+                        id, user_id, target_type, comment_id, reply_id,
                         reason, description, is_reviewed
                     )
-                    VALUES (:reporter_id, :target_type, NULL, :reply_id, :reason, :description, :is_reviewed)
+                    VALUES (:id, :user_id, :target_type, NULL, :reply_id, :reason, :description, :is_reviewed)
                 """),
+                # FIX: column is 'user_id' not 'reporter_id', and id is now included
                 {
-                    "reporter_id": reporter_id,
+                    "id": report_id,
+                    "user_id": reporter_id,
                     "target_type": "REPLY",
                     "reply_id": reply_id,
                     "reason": random.choice(
@@ -255,7 +282,8 @@ def seed_reports(user_ids):
 
 def print_summary():
     print("\nDatabase Summary:")
-    for table in ["users", "instructors", "courses", "comments", "replies"]:
+    for table in ["users", "instructors", "courses", "comments", "replys", "reports"]:
+        # FIX: 'replys' not 'replies'
         count = db.execute(text(f"SELECT COUNT(*) FROM {table}")).fetchone()[0]
         print(f"  {table:<15} {count} rows")
 

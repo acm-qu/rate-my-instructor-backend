@@ -1,23 +1,22 @@
 from datetime import datetime
-from uuid import uuid7
+from uuid import uuid4
 
 from pydantic import (
-    UUID7,
+    UUID4,
     BaseModel,
     ConfigDict,
     Field,
     NonNegativeFloat,
     NonNegativeInt,
-    Optional,
     model_validator,
 )
-
+from typing import Optional
 
 class Comment(BaseModel):
-    id: UUID7 = Field(default_factory=uuid7)
-    user_id: UUID7 = Field(default_factory=uuid7)
-    instructor_id: Optional[UUID7] = Field(default_factory=None)
-    course_id: Optional[UUID7] = Field(default_factory=None)
+    id: UUID4 = Field(default_factory=uuid4)
+    user_id: UUID4 = Field(default_factory=uuid4)
+    instructor_id: Optional[UUID4] = Field(default=None)
+    course_id: Optional[UUID4] = Field(default=None)
 
     content: str
     rating: NonNegativeFloat
