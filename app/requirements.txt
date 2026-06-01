@@ -15,7 +15,7 @@ SQLAlchemy==2.0.50
 starlette==1.1.0
 typing-inspection==0.4.2
 typing_extensions==4.15.0
-redis==7.4.0
+redis==8.0.0
 uuid7==0.1.0
 httpx==0.28.0
-uvicorn==0.34.0
+uvicorn==0.48.0
