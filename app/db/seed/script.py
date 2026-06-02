@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
 
+from schemas.msc.enums import ReportReason, ReportTargetType
+
 from constants import (
     COURSES,
     INSTRUCTORS,
@@ -224,17 +226,9 @@ def seed_reports(user_ids):
                 {
                     "id": report_id,
                     "user_id": reporter_id,
-                    "target_type": "COMMENT",
+                    "target_type": ReportTargetType.COMMENT.name,
                     "comment_id": comment_id,
-                    "reason": random.choice(
-                        [
-                            "SPAM",
-                            "INAPPROPRIATE",
-                            "HARASSMENT",
-                            "MISINFORMATION",
-                            "OTHER",
-                        ]
-                    ),
+                    "reason": random.choice(list(ReportReason)).name,
                     "description": random.choice(REPORT_DESCRIPTIONS),
                     "is_reviewed": random.random() < 0.35,
                 },
@@ -259,17 +253,9 @@ def seed_reports(user_ids):
                 {
                     "id": report_id,
                     "user_id": reporter_id,
-                    "target_type": "REPLY",
+                    "target_type": ReportTargetType.REPLY.name,
                     "reply_id": reply_id,
-                    "reason": random.choice(
-                        [
-                            "SPAM",
-                            "INAPPROPRIATE",
-                            "HARASSMENT",
-                            "MISINFORMATION",
-                            "OTHER",
-                        ]
-                    ),
+                    "reason": random.choice(list(ReportReason)).name,
                     "description": random.choice(REPORT_DESCRIPTIONS),
                     "is_reviewed": random.random() < 0.35,
                 },

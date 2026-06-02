@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-from app.schemas.msc.enums import Level
+from schemas.msc.enums import Level
 
 
 class InstructorMetadata(TypedDict):
