@@ -14,9 +14,12 @@ done
 
 echo "== Running ${info[1]} mode of the application in ${info[0]} mode =="
 
-if [[ "${info[0]}" == "strict" && $(echo ruff check) == "All checks passed!" ]]
+if [[ "${info[0]}" == "strict" ]]
 then
-  echo passed linting
+  if ruff check .
+  then
+    echo "passed linting"
+  fi
 fi
 
 if [[ "${info[1]}" == "production" ]]

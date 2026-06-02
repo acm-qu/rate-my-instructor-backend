@@ -8,9 +8,6 @@ from pydantic import (
     NonNegativeFloat,
     NonNegativeInt,
 )
-
-from typing import Optional
-
 from schemas.msc.metadata import InstructorMetadata
 
 
@@ -19,7 +16,7 @@ class Instructor(BaseModel):
 
     name: str = Field(max_length=50)
     department: str = Field(max_length=100)
-    metadata: Optional[InstructorMetadata] = Field(default=None)
+    metadata: InstructorMetadata | None = Field(default=None)
     rating: NonNegativeFloat = Field(default=0, le=5)
     number_of_ratings: NonNegativeInt = Field(default=0)
 

@@ -1,4 +1,5 @@
 from db.session import Base
+from schemas.msc.enums import ReportReason, ReportTargetType
 from sqlalchemy import (
     UUID,
     Boolean,
@@ -6,13 +7,10 @@ from sqlalchemy import (
     DateTime,
     Enum,
     ForeignKey,
-    Integer,
     Text,
     func,
 )
 from sqlalchemy.orm import relationship
-
-from schemas.msc.enums import ReportReason, ReportTargetType
 
 
 class Report(Base):

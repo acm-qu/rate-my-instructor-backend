@@ -2,7 +2,7 @@ import os
 from collections.abc import Generator
 
 from dotenv import load_dotenv
-from sqlalchemy import MetaData, create_engine
+from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, declared_attr, sessionmaker
 
 load_dotenv()

@@ -3,15 +3,14 @@ from uuid import uuid4
 
 from pydantic import UUID4, BaseModel, ConfigDict, Field, model_validator
 from schemas.msc.enums import ReportReason, ReportTargetType
-from typing import Optional
 
 
 class Report(BaseModel):
     id: UUID4 = Field(default_factory=uuid4)
 
     user_id: UUID4 = Field(default_factory=uuid4)
-    comment_id: Optional[UUID4] = Field(default=None)
-    reply_id: Optional[UUID4] = Field(default=None)
+    comment_id: UUID4 | None = Field(default=None)
+    reply_id: UUID4 | None = Field(default=None)
 
     target_type: ReportTargetType
     reason: ReportReason = Field(default=ReportReason.OTHER)
@@ -37,7 +36,7 @@ class Report(BaseModel):
                 "reply_id": "019e704e-09b1-749d-b7c2-231b581499a2",
                 "target_type": ReportTargetType.COMMENT,
                 "reason": ReportReason.INAPPROPRIATE,
-                "description": "This comment doesnt glaze mohamed mabrok enough.",
+                "content": "This comment doesnt glaze mohamed mabrok enough.",
                 "is_reviewed": False,
                 "created_at": "2026-05-28 21:07:16.397239",
             }

@@ -10,13 +10,13 @@ from pydantic import (
     NonNegativeInt,
     model_validator,
 )
-from typing import Optional
+
 
 class Comment(BaseModel):
     id: UUID4 = Field(default_factory=uuid4)
     user_id: UUID4 = Field(default_factory=uuid4)
-    instructor_id: Optional[UUID4] = Field(default=None)
-    course_id: Optional[UUID4] = Field(default=None)
+    instructor_id: UUID4 | None = Field(default=None)
+    course_id: UUID4 | None = Field(default=None)
 
     content: str
     rating: NonNegativeFloat

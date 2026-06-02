@@ -4,12 +4,6 @@ import os
 import random
 from uuid import uuid4  # FIX: added — needed to generate primary keys
 
-from dotenv import load_dotenv
-from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
-
-from schemas.msc.enums import ReportReason, ReportTargetType
-
 from constants import (
     COURSES,
     INSTRUCTORS,
@@ -21,6 +15,10 @@ from constants import (
     REPORT_DESCRIPTIONS,
     USERS,
 )
+from dotenv import load_dotenv
+from schemas.msc.enums import ReportReason, ReportTargetType
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
 

@@ -1,5 +1,5 @@
-from fastapi import FastAPI
 from api.middleware.rate_limiter import RateLimiterMiddleware
+from fastapi import FastAPI
 
 app = FastAPI()
 

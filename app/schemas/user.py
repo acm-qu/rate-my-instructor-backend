@@ -3,7 +3,6 @@ from uuid import uuid4
 from pydantic import UUID4, BaseModel, ConfigDict, EmailStr, Field
 from schemas.msc.enums import Level
 from schemas.msc.regex import QUStudentEmail, Username
-from typing import Optional
 
 
 class User(BaseModel):
@@ -13,7 +12,7 @@ class User(BaseModel):
     email: EmailStr = Field(
         pattern=QUStudentEmail, min_length=19, max_length=19, default=None
     )
-    major: Optional[str]
+    major: str | None
 
     model_config = ConfigDict(
         extra="forbid",
