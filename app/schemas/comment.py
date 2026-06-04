@@ -1,8 +1,8 @@
 from datetime import datetime
-from uuid import uuid4
+from uuid import uuid7
 
 from pydantic import (
-    UUID4,
+    UUID7,
     BaseModel,
     ConfigDict,
     Field,
@@ -13,10 +13,10 @@ from pydantic import (
 
 
 class Comment(BaseModel):
-    id: UUID4 = Field(default_factory=uuid4)
-    user_id: UUID4 = Field(default_factory=uuid4)
-    instructor_id: UUID4 | None = Field(default=None)
-    course_id: UUID4 | None = Field(default=None)
+    id: UUID7 = Field(default_factory=uuid7)
+    user_id: UUID7 = Field(default_factory=uuid7)
+    instructor_id: UUID7 | None = Field(default=None)
+    course_id: UUID7 | None = Field(default=None)
 
     content: str
     rating: NonNegativeFloat

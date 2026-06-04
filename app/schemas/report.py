@@ -1,16 +1,16 @@
 from datetime import datetime
-from uuid import uuid4
+from uuid import uuid7
 
-from pydantic import UUID4, BaseModel, ConfigDict, Field, model_validator
+from pydantic import UUID7, BaseModel, ConfigDict, Field, model_validator
 from schemas.msc.enums import ReportReason, ReportTargetType
 
 
 class Report(BaseModel):
-    id: UUID4 = Field(default_factory=uuid4)
+    id: UUID7 = Field(default_factory=uuid7)
 
-    user_id: UUID4 = Field(default_factory=uuid4)
-    comment_id: UUID4 | None = Field(default=None)
-    reply_id: UUID4 | None = Field(default=None)
+    user_id: UUID7 = Field(default_factory=uuid7)
+    comment_id: UUID7 | None = Field(default=None)
+    reply_id: UUID7 | None = Field(default=None)
 
     target_type: ReportTargetType
     reason: ReportReason = Field(default=ReportReason.OTHER)

@@ -1,9 +1,9 @@
-from uuid import uuid4
+from uuid import uuid7
 
-from pydantic import UUID4, BaseModel, Field
+from pydantic import UUID7, BaseModel, Field
 
 
 # Joint table since its a many-to-many relationship
 class CoursesTaught(BaseModel):
-    instructor_id: UUID4 = Field(default_factory=uuid4)
-    course_id: UUID4 = Field(default_factory=uuid4)
+    instructor_id: UUID7 = Field(default_factory=uuid7)
+    course_id: UUID7 = Field(default_factory=uuid7)

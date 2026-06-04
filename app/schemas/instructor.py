@@ -1,7 +1,7 @@
-from uuid import uuid4
+from uuid import uuid7
 
 from pydantic import (
-    UUID4,
+    UUID7,
     BaseModel,
     ConfigDict,
     Field,
@@ -12,7 +12,7 @@ from schemas.msc.metadata import InstructorMetadata
 
 
 class Instructor(BaseModel):
-    id: UUID4 = Field(default_factory=uuid4)
+    id: UUID7 = Field(default_factory=uuid7)
 
     name: str = Field(max_length=50)
     department: str = Field(max_length=100)

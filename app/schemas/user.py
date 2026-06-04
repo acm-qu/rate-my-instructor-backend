@@ -1,12 +1,12 @@
-from uuid import uuid4
+from uuid import uuid7
 
-from pydantic import UUID4, BaseModel, ConfigDict, EmailStr, Field
+from pydantic import UUID7, BaseModel, ConfigDict, EmailStr, Field
 from schemas.msc.enums import Level
 from schemas.msc.regex import QUStudentEmail, Username
 
 
 class User(BaseModel):
-    id: UUID4 = Field(default_factory=uuid4)
+    id: UUID7 = Field(default_factory=uuid7)
 
     username: str = Field(pattern=Username, max_length=30)
     email: EmailStr = Field(
