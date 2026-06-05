@@ -15,7 +15,7 @@ engine = create_engine(
     pool_size=5,
     max_overflow=10,
     pool_pre_ping=True,
-    echo=False,  # debug set to True
+    echo=True,  # debug set to True
 )
 
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
@@ -25,7 +25,7 @@ class Base(DeclarativeBase):
     @declared_attr.directive
     def __tablename__(cls):
         """
-        Convert PascalCase to snake_case name
+        Convert class name from PascalCase to snake_case name
         """
         res = ""
         if len(cls.__name__) == 0:
