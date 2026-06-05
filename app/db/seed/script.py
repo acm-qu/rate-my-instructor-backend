@@ -32,7 +32,7 @@ def seed_users():
     print("Seeding users...")
     user_ids = []
 
-    for u in enumerate(USERS):
+    for u in USERS:
         username = u["email"].split("@")[0]
         metadata = json.dumps({
             "year_of_study": u["status"],

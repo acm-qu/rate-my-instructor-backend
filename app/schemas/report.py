@@ -14,7 +14,7 @@ class Report(BaseModel):
 
     target_type: ReportTargetType
     reason: ReportReason = Field(default=ReportReason.OTHER)
-    description: str
+    description: str | None = Field(default=None)
     is_reviewed: bool = Field(default=False)
     created_at: datetime = Field(default_factory=datetime.now)
 
@@ -36,7 +36,7 @@ class Report(BaseModel):
                 "reply_id": "019e704e-09b1-749d-b7c2-231b581499a2",
                 "target_type": ReportTargetType.COMMENT,
                 "reason": ReportReason.INAPPROPRIATE,
-                "content": "This comment doesnt glaze mohamed mabrok enough.",
+                "description": "This comment doesnt glaze mohamed mabrok enough.",
                 "is_reviewed": False,
                 "created_at": "2026-05-28 21:07:16.397239",
             }

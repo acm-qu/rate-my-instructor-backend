@@ -16,10 +16,12 @@ echo "== Running ${info[1]} mode of the application in ${info[0]} mode =="
 
 if [[ "${info[0]}" == "strict" ]]
 then
-  if ruff check .
+  if ! ruff check .;
   then
-    echo "passed linting"
+    echo "failed linting"
+    exit 1
   fi
+  echo "linting passed"
 fi
 
 if [[ "${info[1]}" == "production" ]]

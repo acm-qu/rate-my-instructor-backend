@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 
 
 class Instructor(Base):
-    id = Column(UUID, primary_key=True, index=True)
+    id = Column(UUID, primary_key=True, index=True, nullable=False)
     name = Column(String(50), nullable=False)
     department = Column(String(100), nullable=True)
     metadata_ = Column("metadata", JSONB, nullable=True)
