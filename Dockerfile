@@ -1,19 +1,21 @@
 # Setup the image that everything will depend on
-FROM python:3.14-slim
+FROM python:3.14-alpine
 
 # Create a folder in the container to work with
-WORKDIR /src
+WORKDIR /backend
 
 # Copy everything from here to the container
 COPY . .
 
-RUN apt-get update && apt-get install -y python3
-
-RUN pip3 install -r app/requirements.txt
+# Run big commands
+# Make a venv and install dependencies, with cache cleanup
+RUN apk add --no-cache bash python3 py3-pip && rm -rf /var/cache/apk/* && python3.14 -m venv .venv && .venv/bin/pip install --no-cache-dir -r app/requirements.txt
 
 # Make the scripts executable
-RUN chmod +x ./scripts/*
+RUN chmod +x ./run.sh
+
+# Port used by the backend
+EXPOSE 8080
 
 # Run the application
-# -s: strict mode
-CMD ["./scripts/run.sh", "--strict"]
+CMD ["/bin/bash", "./run.sh", "--strict"]

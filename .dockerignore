@@ -1,4 +1,7 @@
-.venv
+.venv/
+.pyc
+*.pyo
+*.pyd
 __pycache__/
 .ruff_cache/
 README.md

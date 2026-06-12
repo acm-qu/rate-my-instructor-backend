@@ -4,12 +4,11 @@
 if [[ ! -d ".venv" ]]; then
   python3.14 -m venv .venv
 fi
-source .venv/bin/activate
-pip3 install --upgrade pip
-pip3 install -r app/requirements.txt
+.venv/bin/pip install --upgrade pip
+.venv/bin/pip install -r app/requirements.txt
 
 # Upgrade to latest alembic revision
-alembic upgrade head
+.venv/bin/alembic -c app/alembic.ini upgrade head
 
 # Check for arguments
 info=("lenient" "development")
@@ -29,7 +28,7 @@ echo "== Running ${info[1]} mode of the application in ${info[0]} mode =="
 # Additional checks for strict mode
 if [[ "${info[0]}" == "strict" ]]
 then
-  if ! ruff check .;
+  if ! .venv/bin/ruff check .;
   then
     echo "failed linting"
     exit 1
@@ -40,7 +39,7 @@ fi
 # Run the application
 if [[ "${info[1]}" == "production" ]]
 then
-  uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+  .venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 4
 else
-  uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+  .venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 fi
